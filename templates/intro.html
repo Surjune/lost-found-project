@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sri Krishna Arts and Science College Lost & Found Portal</title>
+  <link rel="preload" href="{{ url_for('static', filename='images/campuss.jpg') }}" as="image" />
+  <style>
+    :root {
+      --black: #000;
+      --white: #fff;
+      --gray-light: #888;
+      --overlay-opacity: 0.75;
+      --radius: 16px;
+      --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.55);
+      --max-width: 900px;
+      --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      --sidebar-width: 72px;
+    }
+
+    html, body {
+      margin: 0; height: 100%;
+      font-family: var(--font-family);
+      background-color: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+body {
+  background-image: url('/static/images/campuss.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  padding-left: var(--sidebar-width);
+  padding-right: var(--sidebar-width);
+}
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, var(--overlay-opacity));
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Left Sidebar */
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: var(--sidebar-width);
+      background:
+        linear-gradient(to bottom, var(--white) 10%, transparent 10% 20%, var(--white) 20% 30%, transparent 30%) repeat-y,
+        linear-gradient(to bottom, var(--white) 5%, transparent 5% 15%, var(--white) 15% 25%, transparent 25%) repeat-y;
+      background-size: 2px 40px, 1px 30px;
+      background-position: 20px 0, 0 10px;
+      z-index: 1;
+      opacity: 0.15;
+    }
+
+    /* Right Sidebar vertical text */
+    .sidebar-text-right {
+      position: fixed;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.2em;
+      color: var(--gray-light);
+      user-select: none;
+      z-index: 2;
+      opacity: 0.65;
+    }
+
+    /* Left Sidebar vertical text */
+    .sidebar-text-left {
+      position: fixed;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.2em;
+      color: var(--gray-light);
+      user-select: none;
+      z-index: 2;
+      opacity: 0.65;
+    }
+
+    main.container {
+      position: relative;
+      z-index: 3;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 3rem 1rem 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+      text-align: center;
+    }
+
+    header.title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-weight: 900;
+      font-size: clamp(28px, 5vw, 44px);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      filter: drop-shadow(0 3px 4px rgba(0,0,0,0.8));
+    }
+
+    header.title img {
+      width: 80px;
+      height: 80px;
+      border-radius: var(--radius);
+      background: var(--white);
+      object-fit: contain;
+      box-shadow: var(--shadow-lg);
+      filter: grayscale(100%);
+      transition: filter 0.25s ease;
+    }
+
+    header.title img:hover,
+    header.title img:focus-visible {
+      filter: grayscale(0%);
+      outline: none;
+    }
+
+    p.subtitle {
+      font-size: clamp(18px, 2.5vw, 24px);
+      font-style: italic;
+      color: var(--gray-light);
+      max-width: 750px;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    section.description {
+      max-width: 760px;
+      font-size: 1.1rem;
+      color: var(--gray-light);
+      line-height: 1.65;
+      text-align: left;
+      padding: 0 1rem;
+    }
+
+    section.description strong {
+      font-weight: 700;
+    }
+
+    nav.actions {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    nav.actions a.get-started-btn {
+      background-color: var(--white);
+      color: var(--black);
+      padding: 18px 44px;
+      border-radius: var(--radius);
+      font-weight: 900;
+      font-size: 1.4rem;
+      text-decoration: none;
+      text-transform: uppercase;
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.45);
+      transition: all 0.3s ease;
+      min-width: 180px;
+      user-select: none;
+      cursor: pointer;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    nav.actions a.get-started-btn:hover,
+    nav.actions a.get-started-btn:focus-visible {
+      background-color: var(--black);
+      color: var(--white);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.65);
+      outline: none;
+      outline-offset: 6px;
+      outline-style: solid;
+      outline-color: var(--white);
+    }
+
+    nav.actions a.get-started-btn:active {
+      transform: scale(0.97);
+      transition: transform 0.1s ease;
+    }
+
+    footer.about-us {
+      color: var(--gray-light);
+      font-size: 1rem;
+      margin-top: 3rem;
+      text-align: center;
+      max-width: var(--max-width);
+      line-height: 1.65;
+      padding: 0 1.5rem 4rem;
+      border-top: 1px solid var(--gray-light);
+      letter-spacing: 0.8px;
+      user-select: none;
+      font-style: italic;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding-left: 0;
+        padding-right: 0;
+      }
+      .sidebar-text-left, .sidebar-text-right, body::after {
+        display: none;
+      }
+      main.container {
+        max-width: 100%;
+        padding: 2rem 1rem 3rem;
+      }
+      header.title {
+        font-size: clamp(22px, 7vw, 36px);
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      header.title img {
+        width: 60px;
+        height: 60px;
+      }
+      p.subtitle {
+        font-size: clamp(16px, 3vw, 20px);
+        max-width: 100%;
+      }
+      section.description {
+        font-size: 1rem;
+        text-align: center;
+        padding: 0 0.5rem;
+      }
+      nav.actions a.get-started-btn {
+        min-width: 140px;
+        font-size: 1.2rem;
+        padding: 14px 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <span class="sidebar-text-left" aria-hidden="true">CAMPUS • TRUST • COMMUNITY • RESPONSIBILITY</span>
+  <span class="sidebar-text-right" aria-hidden="true">LOST & FOUND • RECOVERY • SAFETY • SERVICE</span>
+
+  <main class="container" role="main" aria-label="Introductory panel">
+    <header class="title">
+      <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Sri Krishna Arts and Science College logo" />
+      <span>Sri Krishna Arts and Science College</span>
+    </header>
+
+    <p class="subtitle">
+      Welcome to the official Lost &amp; Found Portal for Sri Krishna Arts and Science College – your trusted gateway to recovering lost belongings on campus with ease and security.
+    </p>
+
+    <section class="description">
+      <p>
+        This platform is designed specifically for our college community of students, faculty, and staff. Here, you can:
+      </p>
+      <ul>
+        <li><strong>Report lost or found items</strong> quickly using simple forms with detailed descriptions and images.</li>
+        <li><strong>Search and browse</strong> current lost &amp; found listings easily from your phone or computer.</li>
+        <li><strong>Connect safely</strong> with finders or owners to arrange item recovery at a convenient time and place.</li>
+        <li><strong>Enjoy peace of mind</strong> as all reports are reviewed and verified by trusted admins for authenticity and to prevent misuse.</li>
+      </ul>
+      <p>
+        Our goal is to minimize the disruption caused by lost belongings by making recovery straightforward, encouraging community responsibility, and fostering trust across campus.
+      </p>
+    </section>
+
+    <nav class="actions" aria-label="Get started">
+      <a href="{{ url_for('home') }}" class="get-started-btn" role="button" tabindex="0">Get Started</a>
+    </nav>
+
+    <footer class="about-us" aria-label="About the Lost & Found portal">
+      <p>
+        <em>About Us:</em><br />
+        The Lost &amp; Found Portal was created to serve the Sri Krishna Arts and Science College community exclusively, offering an efficient, trusted way to report, find, and recover lost items on campus. We believe in empowering our community through responsibility, clear communication, and a shared commitment to helping one another.
+      </p>
+    </footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Lost & Found{% endblock %}</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(120deg, #fafbff 0%, #eef1f6 100%);
+      color: #222;
+      min-height: 100vh;
+    }
+    nav.navbar {
+      background-color: #121212;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      z-index: 1000;
+    }
+    .navbar-left, .navbar-center, .navbar-right {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+    .navbar-left {
+      flex: 1;
+      font-weight: 700;
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+      color: #fff;
+      gap: 0.5rem;
+    }
+    .navbar-center {
+      flex: 2;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1.25rem;
+      letter-spacing: 0.1em;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #88aaff;
+      user-select: none;
+      animation: modernGlow 6s ease-in-out infinite;
+      text-transform: uppercase;
+      text-shadow: 0 0 5px #536dfeaa;
+      padding: 0 0.25rem;
+      border-radius: 6px;
+      transition: letter-spacing 0.4s ease;
+    }
+    .navbar-center:hover {
+      letter-spacing: 0.25em;
+      text-shadow: 0 0 15px #536dfeee;
+      cursor: default;
+    }
+    .navbar-right {
+      flex: 1;
+      justify-content: flex-end;
+      gap: 1.2rem;
+      color: #ccc;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      white-space: nowrap;
+    }
+    .nav-links a {
+      color: #bbb;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      padding: 0.25rem 0.6rem;
+      border-radius: 8px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .nav-links a:hover {
+      background-color: #536dfe;
+      color: white;
+    }
+    .nav-separator {
+      width: 2px;
+      height: 24px;
+      background: #4a65e1cc;
+      margin: 0 1rem;
+      border-radius: 1px;
+    }
+    .hello {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #95aaff;
+    }
+    .btn-out {
+      background: transparent;
+      border: 2px solid #536dfe;
+      border-radius: 20px;
+      padding: 0.45rem 1.2rem;
+      color: #536dfe;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    .btn-out:hover {
+      background-color: #536dfe;
+      color: white;
+    }
+    main.container {
+      margin-top: 72px;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 4rem;
+      background: #f7faff;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      min-height: 70vh;
+      padding: 2.5rem;
+      color: #333;
+    }
+    .flash-wrapper {
+      max-width: 1100px;
+      margin: 1rem auto 0;
+      position: relative;
+      z-index: 50;
+    }
+    .flash {
+      background-color: #2d2d50;
+      color: #eee;
+      padding: 1.2rem 2rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      text-align: center;
+    }
+    .search-icon {
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: #536dfe;
+      display: flex;
+      align-items: center;
+    }
+
+    @keyframes modernGlow {
+      0%, 100% {
+        color: #88aaff;
+        text-shadow: 0 0 5px #536dfeaa;
+        transform: scale(1);
+      }
+      50% {
+        color: #d2deff;
+        text-shadow: 0 0 20px #536dffee;
+        transform: scale(1.1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-left">
+      <span class="search-icon">🔎</span>
+      <span>Lost & Found</span>
+    </div>
+    <div class="navbar-center">
+      Sri Krishna Arts and Science College
+    </div>
+    <div class="navbar-right">
+      {% if session.get('user_id') %}
+      <div class="nav-links">
+        <a href="{{ url_for('home', status='lost') }}">Lost</a>
+        <a href="{{ url_for('home', status='found') }}">Found</a>
+        <a href="{{ url_for('lost_item') }}">Submit Lost</a>
+        <a href="{{ url_for('found_item') }}">Report Found</a>
+        {% if session.get('role') == 'admin' %}
+        <a href="{{ url_for('admin') }}">Admin</a>
+        {% endif %}
+      </div>
+      <span class="nav-separator"></span>
+      <span class="hello">Hi, {{ session.get('user_name') }}</span>
+      <span class="nav-separator"></span>
+      <a href="{{ url_for('logout') }}" class="btn-out">Logout</a>
+      {% else %}
+      <div class="nav-links">
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('signup') }}">Create Account</a>
+      </div>
+      {% endif %}
+    </div>
+  </nav>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+    <div class="flash-wrapper">
+      {% for category, message in messages %}
+      <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

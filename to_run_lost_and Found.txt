@@ -1,0 +1,5 @@
+cd C:\Users\rajes\Downloads\lost-and-found
+**Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+.\.venv\Scripts\Activate.ps1
+
+

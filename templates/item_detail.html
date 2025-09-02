@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  .detail {
+    display: flex;
+    max-width: 980px;
+    margin: 3.5rem auto 4.5rem auto;
+    background: #f5f7fb;
+    border-radius: 28px;
+    box-shadow: 0 8px 34px rgb(0 0 0 / 0.09);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #252525;
+    overflow: hidden;
+    gap: 0;
+  }
+  .detail-media {
+    flex: 1 1 340px;
+    background: #dee1eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.8rem 2rem 2.8rem 2rem;
+    min-width: 260px;
+  }
+  .detail-media img {
+    width: 92%;
+    height: auto;
+    max-height: 370px;
+    object-fit: contain;
+    border-radius: 18px;
+    box-shadow: 0 6px 24px rgb(150 150 150 / 0.08);
+    background: white;
+  }
+  .placeholder.big {
+    width: 92%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: italic;
+    color: #888;
+    background: #e6e8f2;
+    border-radius: 18px;
+  }
+  .detail-body {
+    flex: 2 1 600px;
+    padding: 2.8rem 3rem 2.4rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .detail-body h1 {
+    margin-top: 0;
+    font-weight: 800;
+    font-size: 2.45rem;
+    letter-spacing: 1.1px;
+    margin-bottom: 0.7rem;
+    line-height: 1.15;
+  }
+  .muted {
+    color: #838393;
+    font-size: 0.98rem;
+    margin-bottom: 1.5rem;
+    margin-top: 0;
+  }
+  .detail-body p {
+    font-size: 1.14rem;
+    line-height: 1.65;
+    margin-bottom: 2.2rem;
+    margin-top: 0;
+    word-break: break-word;
+  }
+  h3 {
+    font-weight: 700;
+    margin: 2.8rem 0 1.5rem 0;
+    font-size: 1.15rem;
+  }
+  form.form {
+    margin-bottom: 2.4rem;
+    display: flex;
+    flex-direction: column;
+  }
+  form.form label {
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    display: block;
+    font-size: 1.09rem;
+  }
+  form.form input[type="text"] {
+    width: 100%;
+    padding: 14px 17px;
+    border-radius: 13px;
+    border: 1.9px solid #bbb;
+    font-size: 1.07rem;
+    margin-bottom: 1.5rem; /* Increased for balanced gap */
+    transition: border-color 0.3s ease;
+    background: #fff;
+  }
+  form.form input[type="text"]:focus {
+    border-color: #6e56ff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(110, 86, 255, 0.17);
+  }
+  button.btn {
+    background: linear-gradient(90deg, #6e56ff, #9274ff);
+    border: none;
+    padding: 14px 41px;
+    font-weight: 700;
+    font-size: 1.13rem;
+    color: #fff;
+    border-radius: 27px;
+    cursor: pointer;
+    transition: background 0.3s;
+    user-select: none;
+    margin-top: 0; /* Tighten gap beneath input */
+    box-shadow: 0 8px 24px rgb(110 86 255 / 0.13);
+    align-self: flex-start; /* Button left-aligned; use center for center alignment */
+  }
+  button.btn:hover, button.btn:focus {
+    background: linear-gradient(90deg, #7669ff, #5c50db);
+    outline: none;
+  }
+  ul.reports {
+    padding-left: 1rem;
+    font-size: 1.09rem;
+    color: #494949;
+    margin-bottom: 0;
+    margin-top: 2.2rem;
+  }
+  ul.reports li {
+    list-style-type: disc;
+    margin-bottom: 1.1rem;
+    word-break: break-word;
+  }
+  ul.reports li .muted {
+    font-size: 0.95rem;
+    color: #aaa;
+    margin-left: 0.3rem;
+  }
+</style>
+
+<div class="detail">
+  <div class="detail-media">
+    {% if item.photo %}
+      <img src="{{ url_for('static', filename='uploads/' ~ item.photo) }}" alt="item photo">
+    {% else %}
+      <div class="placeholder big">No photo</div>
+    {% endif %}
+  </div>
+  <div class="detail-body">
+    <h1>{{ item.title }}</h1>
+    <p class="muted">{{ item.status|title }} • by {{ item.user_name }} • {{ item.created_at.strftime('%Y-%m-%d %H:%M') if item.created_at else '' }}</p>
+    <p>{{ item.description }}</p>
+    {% if session.get('user_id') %}
+      <h3>Report a sighting / handover location</h3>
+      <form method="post" action="{{ url_for('report_item', item_id=item.id) }}" class="form">
+        <label for="found_location">Location / Details</label>
+        <input type="text" id="found_location" name="found_location" placeholder="Share a place or contact details" required>
+        <button type="submit" class="btn">Submit report</button>
+      </form>
+    {% else %}
+      <p><a href="{{ url_for('login') }}">Log in</a> to report a sighting.</p>
+    {% endif %}
+    <h3>Reports</h3>
+    <ul class="reports">
+      {% for r in reports %}
+        <li>
+          <strong>{{ r.reporter_name or 'Anonymous' }}</strong>: {{ r.found_location }}
+          <span class="muted">({{ r.created_at.strftime('%Y-%m-%d %H:%M') if r.created_at else '' }})</span>
+        </li>
+      {% else %}
+        <li>No reports yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Verify OTP - SKASC Lost & Found</title>
+  <style>
+    body {
+      background: #e0e7ff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #1e293b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .verify-container {
+      background-color: #ffffff;
+      padding: 2.5rem 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(100, 116, 139, 0.2);
+      width: 100%;
+      max-width: 400px;
+      box-sizing: border-box;
+      text-align: left;  /* Changed from center to left */
+      position: relative;
+    }
+    h2 {
+      margin-bottom: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #334155;
+      text-transform: uppercase;
+      text-align: center; /* Heading can be centered */
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      text-align: left;
+      color: #475569;
+      font-size: 1rem;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1.5px solid #cbd5e1;
+      font-size: 1.1rem;
+      color: #0f172a;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+      outline-offset: 2px;
+      margin-bottom: 1.4rem;
+    }
+    input[type="text"]:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      background-color: #6366f1;
+      color: white;
+      font-weight: 700;
+      font-size: 1.12rem;
+      cursor: pointer;
+      transition: background-color 0.25s ease;
+      user-select: none;
+    }
+    button:hover, button:focus {
+      background-color: #4f46e5;
+      outline: none;
+    }
+    .flash-message {
+      margin-bottom: 1.2rem;
+      padding: 12px 15px;
+      background-color: #ef4444;
+      color: white;
+      font-weight: 700;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 1.8rem;
+      font-weight: 700;
+      color: #6366f1;
+      border: 2px solid #6366f1;
+      padding: 6px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      user-select: none;
+      text-decoration: none;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      position: absolute;
+      left: 20px;
+      top: 20px;
+    }
+    .back-btn:hover, .back-btn:focus {
+      background-color: #6366f1;
+      color: white;
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <main class="verify-container" role="main" aria-label="OTP Verification Form">
+    <h2>Verify OTP</h2>
+    <a href="javascript:history.back()" class="back-btn" aria-label="Go back">← Back</a>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="flash-message" role="alert">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('verify_otp') }}" method="post" novalidate>
+      <label for="otp">Enter the OTP sent to your email</label>
+      <input type="text" id="otp" name="otp" placeholder="6-digit OTP" maxlength="6" required autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]{6}" />
+      <button type="submit">Verify</button>
+    </form>
+  </main>
+</body>
+</html>

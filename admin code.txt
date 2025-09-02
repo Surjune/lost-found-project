@@ -1,0 +1,1 @@
+ADMIN_SECRET = "J7v$9XqBd2!Re4Tp"
