@@ -9,4 +9,3 @@ itsdangerous==2.1.2
 WTForms==3.0.1
 python-dotenv==1.0.0
 Flask-Mail==0.9.1
-
