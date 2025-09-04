@@ -38,12 +38,17 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp"}
 
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
+DB_URL = os.getenv("DATABASE_URL")  # This comes from Render's MySQL plugin
+# Parse DATABASE_URL like: mysql://user:password@host:port/dbname
+import urllib.parse
+
+parsed = urllib.parse.urlparse(DB_URL)
 DB_CONFIG = {
-    "host": os.getenv("DB_HOST", "127.0.0.1"),
-    "user": os.getenv("DB_USER", "root"),
-    "password": os.getenv("DB_PASSWORD", ""),
-    "database": os.getenv("DB_NAME", "lost_found_db"),
-    "port": int(os.getenv("DB_PORT", "3306")),
+    "host": parsed.hostname,
+    "user": parsed.username,
+    "password": parsed.password,
+    "database": parsed.path.lstrip("/"),
+    "port": parsed.port or 3306,
 }
 
 def get_db():
@@ -54,6 +59,7 @@ def get_db():
         database=DB_CONFIG["database"],
         port=DB_CONFIG["port"],
         autocommit=False,
+    )
     )
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
