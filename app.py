@@ -46,10 +46,7 @@ DB_CONFIG = {
     "port": int(os.getenv("DB_PORT", "3306")),
 }
 
-print("DB_CONFIG:", DB_CONFIG)
-
 def get_db():
-    print(f"Connecting to DB as {DB_CONFIG['user']} at {DB_CONFIG['host']}")
     return mysql.connector.connect(
         host=DB_CONFIG["host"],
         user=DB_CONFIG["user"],
@@ -58,7 +55,6 @@ def get_db():
         port=DB_CONFIG["port"],
         autocommit=False,
     )
-
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
