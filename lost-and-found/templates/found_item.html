@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  .report-found-container {
+    max-width: 600px;
+    margin: 3rem auto 5rem auto;
+    background-color: #e9ebee; /* soft light gray */
+    padding: 3rem 3.5rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #222;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 1.6rem;
+    letter-spacing: 1.1px;
+    text-align: center;
+  }
+  form.form label {
+    display: block;
+    font-weight: 600;
+    margin: 1.5rem 0 0.6rem 0;
+    font-size: 1.15rem;
+    color: #555;
+  }
+  form.form input[type="text"],
+  form.form textarea,
+  form.form input[type="file"] {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 2px solid #ccc;
+    font-size: 1rem;
+    font-family: inherit;
+    box-sizing: border-box;
+    resize: vertical;
+    background-color: #fff;
+    color: #222;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  form.form input[type="text"]:focus,
+  form.form textarea:focus,
+  form.form input[type="file"]:focus {
+    border-color: #6e56ff; /* subtle purple */
+    box-shadow: 0 0 8px rgba(110, 86, 255, 0.5);
+    outline: none;
+  }
+  form.form textarea {
+    min-height: 130px;
+  }
+
+  button.pretty-submit-btn {
+    width: 100%;
+    padding: 16px 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    background: linear-gradient(90deg, #6e56ff, #9474ff);
+    box-shadow: 0 6px 22px rgba(149, 138, 255, 0.6);
+    transition: filter 0.25s ease, transform 0.25s ease;
+    user-select: none;
+    letter-spacing: 1.1px;
+    margin-top: 2.5rem;
+  }
+  button.pretty-submit-btn:hover,
+  button.pretty-submit-btn:focus {
+    filter: brightness(1.15);
+    transform: translateY(-3px);
+    outline: none;
+  }
+</style>
+
+<div class="report-found-container">
+  <h1>Report a Found Item</h1>
+  <form method="post" enctype="multipart/form-data" class="form" novalidate>
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" placeholder="What did you find?" required />
+    
+    <label for="description">Description</label>
+    <textarea id="description" name="description" rows="4" placeholder="Describe the item and where you found it." required></textarea>
+    
+    <label for="photo">Photo (optional)</label>
+    <input type="file" id="photo" name="photo" accept="image/*" />
+    
+    <button type="submit" class="pretty-submit-btn">Report</button>
+  </form>
+</div>
+
+{% endblock %}

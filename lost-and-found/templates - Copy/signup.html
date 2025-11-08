@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up - SKASC Lost & Found</title>
+  <style>
+    @keyframes fadeSlideIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background-color: #f0f4ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #333;
+      position: relative;
+      padding-top: 70px;
+      overflow-x: hidden;
+    }
+
+    /* Back button fixed top-left */
+    .back-btn {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      padding: 11px 20px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      border-radius: 12px;
+      border: 2px solid #5261f7;
+      background-color: transparent;
+      color: #5261f7;
+      cursor: pointer;
+      user-select: none;
+      text-decoration: none;
+      z-index: 1000;
+      white-space: nowrap;
+      animation: fadeSlideIn 0.7s ease forwards;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .back-btn:hover,
+    .back-btn:focus {
+      background-color: #5261f7;
+      color: white;
+      outline: none;
+    }
+
+    /* Form container */
+    .form-container {
+      background: #fff;
+      padding: 4rem 3rem;
+      max-width: 560px;
+      width: 90%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      border-radius: 14px;
+      box-sizing: border-box;
+      text-align: center;
+      opacity: 0;
+      animation: fadeSlideIn 1.2s ease forwards;
+    }
+
+    h1 {
+      font-weight: 700;
+      margin-bottom: 2.2rem;
+      color: #37468b;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #5d72b5;
+      user-select: none;
+      font-size: 1rem;
+    }
+
+    input[type='text'],
+    input[type='email'],
+    input[type='password'] {
+      width: 100%;
+      padding: 16px 18px;
+      margin-bottom: 24px;
+      box-sizing: border-box;
+      border-radius: 10px;
+      border: 1.8px solid #c7d1f7;
+      font-size: 1.15rem;
+      color: #2c387e;
+      outline-offset: 3px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #5261f7;
+      box-shadow: 0 0 12px rgba(82, 97, 247, 0.5);
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 18px;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: white;
+      background-color: #5261f7;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover,
+    button:focus {
+      background-color: #37468b;
+      outline: none;
+    }
+
+    .link-text {
+      margin-top: 1.6rem;
+      font-size: 1rem;
+      color: #7c86c5;
+      user-select: none;
+    }
+
+    .link-text a {
+      color: #5261f7;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+
+    .link-text a:hover,
+    .link-text a:focus {
+      border-color: #5261f7;
+      outline: none;
+    }
+
+    .flash-message {
+      background-color: #ef4444;
+      color: white;
+      font-weight: 700;
+      padding: 12px 18px;
+      margin-bottom: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      user-select: none;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <a href="javascript:history.back()" class="back-btn" aria-label="Go back" tabindex="1">← Back</a>
+
+  <main class="form-container" role="main" aria-label="Sign up form" tabindex="2">
+    <h1>Sign Up</h1>
+
+    {% with messages = get_flashed_messages(category_filter=['danger', 'warning', 'success', 'info']) %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="flash-message" role="alert" tabindex="3">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('signup') }}" method="post" novalidate>
+      <label for="name">Full Name</label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        placeholder="Your full name"
+        required
+        autocomplete="name"
+        tabindex="4"
+      />
+
+      <label for="email">Email Address</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        placeholder="you@skasc.ac.in"
+        pattern=".+@skasc\.ac\.in"
+        title="Email must end with @skasc.ac.in"
+        required
+        autocomplete="email"
+        tabindex="5"
+      />
+
+      <label for="password">Password</label>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        placeholder="Create a password"
+        required
+        autocomplete="new-password"
+        tabindex="6"
+      />
+
+      <label for="admin_code">Admin Access Code (optional)</label>
+      <input
+        id="admin_code"
+        name="admin_code"
+        type="password"
+        placeholder="Enter admin access code"
+        autocomplete="off"
+        tabindex="7"
+      />
+
+      <button type="submit" tabindex="8">Sign Up</button>
+    </form>
+
+    <p class="link-text">
+      Already registered? <a href="{{ url_for('login') }}">Log in here</a>.
+    </p>
+  </main>
+</body>
+</html>

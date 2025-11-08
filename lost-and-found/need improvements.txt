@@ -1,0 +1,32 @@
+how is the MySQL working in my project 
+
+
+basically they are in three things :
+
+
+items 
+report
+users
+ok vaa 
+
+
+what are the things need to be added in every pg 
+
+-we shall add a intro pg 
+-there is noo base for the intro page only login or sign up and few details like how to use it and about us information on the particular pg 
+-back is not there in any of the pg 
+-then will shall proceed with the login or sign up pg which shall be there in the intro pg 
+-then we gotta go to the home pg there only all the things should be shown in it, such as lost and found items and report found items and submit a lost items in the base
+-base should be there in every pg except login or sign up pg and intro pg,base should be in the top of every pg  
+-basically in home pg there should be only a title like lost and found then a search bar for the title 
+-for admin user we shall show the admin column in the home as usual 
+-then for lost and found items handover location is there so that might not be need shall contact with the person that could be better in it.
+-a search bar is need for both lost and found items 
+-in lost items pg ,there should be only lost items noo found item or all such things, but a base can we there in it at the top.
+-in found items pg also same as lost items 
+-in submit lost collect another information, like where did u lose the item.
+-in report found collect another information, like where did u found the item.
+-in admin add a search bar over there also.
+-back button in needed in all pg except home and intro pg 
+-in login or sign up column add a space for admin also were few id can alone view admin pg but for login in admin account they shall submit a otp from the many email.
+-in sign up pg add otp too .
